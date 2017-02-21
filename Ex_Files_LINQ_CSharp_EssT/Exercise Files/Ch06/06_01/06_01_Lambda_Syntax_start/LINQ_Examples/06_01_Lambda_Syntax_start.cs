@@ -102,6 +102,7 @@ namespace LINQ_Examples {
 				Console.Clear();
 				Console.WriteLine("Lambda Syntax\n");
 				Console.WriteLine("1. Ex 01");
+				Console.WriteLine("2. Ex 02");
 				Console.WriteLine("\n0. Exit");
 
 				int Menu;
@@ -112,6 +113,7 @@ namespace LINQ_Examples {
 				switch (Menu) {
 					case 0: Running = false; break;
 					case 1: Ex01(); break;
+					case 2: Ex02(); break;
 				}
 			}
 		}
@@ -147,9 +149,26 @@ namespace LINQ_Examples {
 		}
 
 		public void Ex02() {
-			IEnumerable<string> customerFirstnames = 
+			Console.Clear();
+			IEnumerable<string> customerFirstnames =
 				from c in customers
+				select c.First;
 
+			Console.WriteLine("\nCustomers Firstnames");
+			foreach(string c in customerFirstnames) {
+				Console.WriteLine(c);
+			}
+
+			IEnumerable<string> customerFullnames =
+				from c in customers
+				select c.First + " " + c.Last;
+
+			Console.WriteLine("\nCustomers Fullnames");
+			foreach(string s in customerFullnames) {
+				Console.WriteLine(s);
+			}
+
+			Console.ReadKey();
 		}
 	}
 }
