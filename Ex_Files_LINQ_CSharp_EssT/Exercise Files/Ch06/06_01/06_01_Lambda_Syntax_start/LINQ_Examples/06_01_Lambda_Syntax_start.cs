@@ -263,7 +263,20 @@ namespace LINQ_Examples {
 		}
 
 		private void Ex05() {
+			Console.Clear();
 
+			var a =
+				from c in customers
+				group c.First by c.First[0] into g
+				select new { Firstletter  = g.Key, Name = g };
+			Console.WriteLine("\nCustomers groupbyed by firstname firstletter");
+			foreach(var g in a) {
+				Console.WriteLine("Customers firstname which start with: {0}", g.Firstletter);
+				foreach(var n in g.Name) {
+					Console.WriteLine(" - " + n);
+				}
+			}
+			Console.ReadKey();
 		}
 	}
 }
