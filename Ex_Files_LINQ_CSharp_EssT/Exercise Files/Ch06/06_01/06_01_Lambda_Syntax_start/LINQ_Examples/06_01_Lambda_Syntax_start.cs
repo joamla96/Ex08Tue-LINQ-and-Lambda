@@ -13,7 +13,7 @@ namespace LINQ_Examples {
 			public string[] Purchases { get; set; }
 
 			public override string ToString() {
-				return this.First + " " + this.Last + " ("+ this.State +")";
+				return this.First + " " + this.Last + " ("+ this.State +") - Price: " + this.Price;
 			}
 		}
 
@@ -108,6 +108,7 @@ namespace LINQ_Examples {
 				Console.WriteLine("1. Ex 01");
 				Console.WriteLine("2. Ex 02");
 				Console.WriteLine("3. Ex 03");
+				Console.WriteLine("4. Ex 04");
 				Console.WriteLine("\n0. Exit");
 
 				int Menu;
@@ -120,6 +121,7 @@ namespace LINQ_Examples {
 					case 1: Ex01(); break;
 					case 2: Ex02(); break;
 					case 3: Ex03(); break;
+					case 4: Ex04(); break;
 				}
 			}
 		}
@@ -193,13 +195,61 @@ namespace LINQ_Examples {
 
 			IEnumerable<Customer> first3Customers =
 				customers.Take(3);
-			Console.WriteLine("First 3 Customers:");
+			Console.WriteLine("\nFirst 3 Customers:");
 			foreach(Customer c in first3Customers) {
 				Console.WriteLine(c.ToString());
 			}
 
 			IEnumerable<Customer> first3CustomersFromOR =
-				customers.Take(3);
+				customers
+				.Where(c => c.State == "OR")
+				.Take(3);
+			Console.WriteLine("\nFirst 3 Customers from OR:");
+			foreach (Customer c in first3CustomersFromOR) {
+				Console.WriteLine(c.ToString());
+			}
+
+			Console.ReadKey();
+		}
+
+		private void Ex04() {
+			Console.Clear();
+			IEnumerable<Customer> customersAlphabetically =
+				from c in customers
+				orderby c.First
+				select c;
+
+			Console.WriteLine("\nCustomers Alphabetically");
+			foreach(Customer c in customersAlphabetically) {
+				Console.WriteLine(c.ToString());
+			}
+
+			IEnumerable<Customer> customersLngtLstname =
+				from c in customers
+				orderby c.Last.Length
+				select c;
+			Console.WriteLine("\nCustomers Length by Lastname");
+			foreach (Customer c in customersLngtLstname) {
+				Console.WriteLine(c.ToString());
+			}
+
+			IEnumerable<Customer> customersPrice =
+				from c in customers
+				orderby c.Price descending
+				select c;
+			Console.WriteLine("\nCustomers Price");
+			foreach (Customer c in customersPrice) {
+				Console.WriteLine(c.ToString());
+			}
+
+			IEnumerable<Customer> customerCustom =
+				customers.OrderBy(c => c.First.Length)
+				.ThenBy(c => c.Last);
+
+			Console.WriteLine("\nCustomers Custom");
+			foreach (Customer c in customerCustom) {
+				Console.WriteLine(c.ToString());
+			}
 
 			Console.ReadKey();
 		}
