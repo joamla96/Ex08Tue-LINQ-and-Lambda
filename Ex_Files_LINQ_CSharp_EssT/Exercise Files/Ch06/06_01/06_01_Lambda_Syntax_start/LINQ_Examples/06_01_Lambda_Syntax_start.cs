@@ -95,6 +95,12 @@ namespace LINQ_Examples {
 								 };
 		#endregion
 
+		public class CustomAlphabeticalSorter : IComparer<string> {
+			public int Compare(string X, string Y) {
+				return string.Compare(X, Y);
+			}
+		}
+
 		static void Main(string[] args) {
 			Program p = new Program();
 			p.Run();
@@ -105,10 +111,11 @@ namespace LINQ_Examples {
 			while (Running) {
 				Console.Clear();
 				Console.WriteLine("Lambda Syntax\n");
-				Console.WriteLine("1. Ex 01");
-				Console.WriteLine("2. Ex 02");
+				Console.WriteLine("1. Ex 01 - using Where");
+				Console.WriteLine("2. Ex 02 - using Select");
 				Console.WriteLine("3. Ex 03");
 				Console.WriteLine("4. Ex 04");
+				Console.WriteLine("5. Ex 05");
 				Console.WriteLine("\n0. Exit");
 
 				int Menu;
@@ -122,6 +129,7 @@ namespace LINQ_Examples {
 					case 2: Ex02(); break;
 					case 3: Ex03(); break;
 					case 4: Ex04(); break;
+					case 5: Ex05(); break;
 				}
 			}
 		}
@@ -244,7 +252,7 @@ namespace LINQ_Examples {
 
 			IEnumerable<Customer> customerCustom =
 				customers.OrderBy(c => c.First.Length)
-				.ThenBy(c => c.Last);
+				.ThenBy(c => c.Last, new CustomAlphabeticalSorter());
 
 			Console.WriteLine("\nCustomers Custom");
 			foreach (Customer c in customerCustom) {
@@ -252,6 +260,10 @@ namespace LINQ_Examples {
 			}
 
 			Console.ReadKey();
+		}
+
+		private void Ex05() {
+
 		}
 	}
 }
