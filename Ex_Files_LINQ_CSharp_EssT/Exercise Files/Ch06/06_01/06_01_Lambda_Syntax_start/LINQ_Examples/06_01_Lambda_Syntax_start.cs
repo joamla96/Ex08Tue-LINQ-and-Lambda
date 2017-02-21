@@ -11,6 +11,10 @@ namespace LINQ_Examples {
 			public string State { get; set; }
 			public double Price { get; set; }
 			public string[] Purchases { get; set; }
+
+			public override string ToString() {
+				return this.First + " " + this.Last + " ("+ this.State +")";
+			}
 		}
 
 		public class Distributor {
@@ -103,6 +107,7 @@ namespace LINQ_Examples {
 				Console.WriteLine("Lambda Syntax\n");
 				Console.WriteLine("1. Ex 01");
 				Console.WriteLine("2. Ex 02");
+				Console.WriteLine("3. Ex 03");
 				Console.WriteLine("\n0. Exit");
 
 				int Menu;
@@ -114,6 +119,7 @@ namespace LINQ_Examples {
 					case 0: Running = false; break;
 					case 1: Ex01(); break;
 					case 2: Ex02(); break;
+					case 3: Ex03(); break;
 				}
 			}
 		}
@@ -155,18 +161,45 @@ namespace LINQ_Examples {
 				select c.First;
 
 			Console.WriteLine("\nCustomers Firstnames");
-			foreach(string c in customerFirstnames) {
+			foreach (string c in customerFirstnames) {
 				Console.WriteLine(c);
 			}
 
 			IEnumerable<string> customerFullnames =
 				from c in customers
-				select c.First + " " + c.Last;
+				select c.First + " " + c.Last; // Hm, alternate way discoverd, yah.
 
 			Console.WriteLine("\nCustomers Fullnames");
-			foreach(string s in customerFullnames) {
+			foreach (string s in customerFullnames) {
 				Console.WriteLine(s);
 			}
+
+			IEnumerable<string> bothStates =
+			from c in customers
+			from d in distributors
+			where c.State == d.State
+			select c.State;
+
+			Console.WriteLine("\nCommon States");
+			foreach (string s in bothStates) {
+				Console.WriteLine(s);
+			}
+
+			Console.ReadKey();
+		}
+
+		private void Ex03() {
+			Console.Clear();
+
+			IEnumerable<Customer> first3Customers =
+				customers.Take(3);
+			Console.WriteLine("First 3 Customers:");
+			foreach(Customer c in first3Customers) {
+				Console.WriteLine(c.ToString());
+			}
+
+			IEnumerable<Customer> first3CustomersFromOR =
+				customers.Take(3);
 
 			Console.ReadKey();
 		}
